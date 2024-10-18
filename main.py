@@ -1,8 +1,8 @@
 from embeddings.vector_embedding import generate_embeddings
 from embeddings.vector_search import search, print_results
+from embeddings.summarize_results import process_and_summarize
 from utils.logger import main_logger
 from database.mongodb_connection import MongoDBConnection
-
 
 def main():
     main_logger.info("Starting the application")
@@ -21,11 +21,14 @@ def main():
         main_logger.info(f"Found {len(results)} results for test query")
         print_results(results)  # This will print the results to the console
 
-        # Log the results as well
-        for result in results:
-            main_logger.info(f"Found document with id: {result['_id']}")
-            main_logger.info(f"Content Preview: {result.get('content_preview')}")
-            main_logger.info(f"Similarity Score: {result.get('score', 'N/A')}")
+        # Summarize the results
+        main_logger.info("Summarizing search results")
+        summary = process_and_summarize(test_query, results)
+        print("\nSummary of search results:")
+        print(summary)
+
+        # Log the summary
+        main_logger.info(f"Summary: {summary}")
     else:
         main_logger.warning("No results found for test query")
         print("No results found.")
@@ -33,7 +36,6 @@ def main():
     # Close MongoDB connection
     MongoDBConnection.get_instance().close_connection()
     main_logger.info("Application finished")
-
 
 if __name__ == "__main__":
     main()

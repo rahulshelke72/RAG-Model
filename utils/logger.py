@@ -8,7 +8,6 @@ def setup_logger(name, log_file, level=logging.INFO):
         os.makedirs(log_dir)
 
     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-
     handler = logging.FileHandler(log_file)
     handler.setFormatter(formatter)
 
@@ -22,3 +21,4 @@ def setup_logger(name, log_file, level=logging.INFO):
 main_logger = setup_logger('main_logger', 'logs/main.log')
 embedding_logger = setup_logger('embedding_logger', 'logs/embedding.log')
 search_logger = setup_logger('search_logger', 'logs/search.log')
+summary_logger = setup_logger('summary_logger', 'logs/summary.log')
